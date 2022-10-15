@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import cruzapi.dto.BillPaymentDetails;
 import cruzapi.model.CalculatedBillPayment;
+import cruzapi.model.CalculatedBillPaymentId;
 import cruzapi.repository.CalculatedBillRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BillPaymentService
 {
-	private CalculatedBillRepository calculatedBillRepository;
+	private final CalculatedBillRepository calculatedBillRepository;
 	
 	@Transactional
 	public <S extends CalculatedBillPayment> S save(S entity)
@@ -29,24 +30,25 @@ public class BillPaymentService
 	
 	public CalculatedBillPayment calculateBill(BillPaymentDetails billDetails, LocalDate paymentDate)
 	{
-		CalculatedBillPayment calculatedBill = new CalculatedBillPayment();
+		CalculatedBillPaymentId id = new CalculatedBillPaymentId(billDetails.getCode(), paymentDate);
 		
 		long daysLate = ChronoUnit.DAYS.between(billDetails.getDueDate(), paymentDate);
 		
 		MathContext mathContext = new MathContext(5, RoundingMode.UP);
-		
 		BigDecimal originalAmount = billDetails.getAmount();
 		BigDecimal fineMultiplier = new BigDecimal("0.02", mathContext);
 		BigDecimal interestMultiplierMontly = new BigDecimal("0.01", mathContext);
 		BigDecimal interestMultiplier = new BigDecimal(daysLate, mathContext).divide(new BigDecimal("30"), mathContext)
 				.multiply(interestMultiplierMontly);
 		
-		calculatedBill.setCode(billDetails.getCode());
-		calculatedBill.setPaymentDate(paymentDate);
+		CalculatedBillPayment calculatedBill = new CalculatedBillPayment();
+		
+		calculatedBill.setCalculatedBillPaymentId(id);
 		calculatedBill.setDueDate(billDetails.getDueDate());
 		calculatedBill.setOriginalAmout(originalAmount);
 		calculatedBill.setFineAmountCalculated(originalAmount.multiply(fineMultiplier));
 		calculatedBill.setInterestAmountCalculated(originalAmount.multiply(interestMultiplier));
+		calculatedBill.setAmount(calculatedBill.calculeAmount());
 		
 		return calculatedBill;
 	}

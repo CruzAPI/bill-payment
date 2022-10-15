@@ -27,9 +27,7 @@ import cruzapi.dto.BillPaymentRequest;
 import cruzapi.model.CalculatedBillPayment;
 import cruzapi.service.BillPaymentService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class BillPaymentController
@@ -38,24 +36,11 @@ public class BillPaymentController
 	private final BillPaymentService billService;
 	
 	@GetMapping("/test")
-	public ResponseEntity<?> test(String token, @AuthenticationPrincipal OAuth2User principal, @RequestBody @Valid BillPayment bill, RestTemplate restTemplate)
+	public ResponseEntity<?> test(String token, @RequestBody @Valid BillPayment bill, RestTemplate restTemplate)
 	{
-		log.info("test.......");
-		restTemplate.getInterceptors().add((request, body, execution) ->
-		{
-			request.getHeaders().set(HttpHeaders.AUTHORIZATION, token);
-			return execution.execute(request, body);
-		});
-		
-		log.info("Principal: " + principal);
-		
-		String uri = "https://vagas.builders/api/builders/bill-payments/codes";
-		
 		try
 		{
-			var requestEntity = new HttpEntity<>(new BillPaymentRequest(bill.getBarCode()));
-			var response = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, BillPaymentDetails.class);
-			
+			ResponseEntity<BillPaymentDetails> response = requestBillDetails(restTemplate, bill, token);
 			BillPaymentDetails billDetails = response.getBody();
 			
 			if(billDetails.getType() != BillPaymentType.NPC)
@@ -76,6 +61,21 @@ public class BillPaymentController
 		{
 			return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
 		}
+	}
+	
+	private ResponseEntity<BillPaymentDetails> requestBillDetails(RestTemplate restTemplate, BillPayment bill,
+			String token)
+	{
+		restTemplate.getInterceptors().add((request, body, execution) ->
+		{
+			request.getHeaders().set(HttpHeaders.AUTHORIZATION, token);
+			return execution.execute(request, body);
+		});
+		
+		String uri = "https://vagas.builders/api/builders/bill-payments/codes";
+		
+		var requestEntity = new HttpEntity<>(new BillPaymentRequest(bill.getBarCode()));
+		return restTemplate.exchange(uri, HttpMethod.POST, requestEntity, BillPaymentDetails.class);
 	}
 	
 	@Bean
