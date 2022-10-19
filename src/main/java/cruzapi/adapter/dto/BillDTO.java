@@ -1,4 +1,4 @@
-package cruzapi.dto;
+package cruzapi.adapter.dto;
 
 import java.time.LocalDate;
 
@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class BillPayment
+public class BillDTO
 {
 	@Pattern(regexp = "[0-9]{44}")
 	@NotBlank

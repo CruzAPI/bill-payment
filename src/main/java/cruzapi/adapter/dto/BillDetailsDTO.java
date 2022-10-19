@@ -1,30 +1,25 @@
-package cruzapi.dto;
+package cruzapi.adapter.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.Clock;
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import cruzapi.BillPaymentType;
+import cruzapi.core.entity.BillDetails.Type;
 import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class BillPaymentDetails
+public class BillDetailsDTO implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private String code;
 	private LocalDate dueDate;
 	private BigDecimal amount;
 	private String recipientName;
 	private String recipientDocument;
-	private BillPaymentType type;
-	
-	@JsonIgnore
-	public boolean isExpired(Clock clock)
-	{
-		return dueDate.isBefore(LocalDate.now(clock));
-	}
+	private Type type;
 }

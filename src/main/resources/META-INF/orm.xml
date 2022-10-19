@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd" version="2.0">
+
+	<entity class="cruzapi.domain.entity.CalculatedBill" access="FIELD">
+		<table name="calculated_bill" />
+		<attributes>
+			<id name="uuid">
+				<column column-definition="binary(16)"/>
+				<generated-value strategy="AUTO"/>
+			</id>
+			<basic name="code">
+				<column column-definition="char(44)" nullable="false" />
+			</basic>
+			<basic name="originalAmount">
+				<column column-definition="decimal(19,4)" nullable="false" />
+			</basic>
+			<basic name="amount">
+				<column column-definition="decimal(19,4)" nullable="false" />
+			</basic>
+			<basic name="dueDate">
+				<column nullable="false" />
+			</basic>
+			<basic name="paymentDate">
+				<column nullable="false" />
+			</basic>
+			<basic name="interestAmountCalculated">
+				<column column-definition="decimal(19,4)" nullable="false" />
+			</basic>
+			<basic name="fineAmountCalculated">
+				<column column-definition="decimal(19,4)" nullable="false" />
+			</basic>
+			<basic name="requestDateTime">
+				<column nullable="false" />
+			</basic>
+		</attributes>
+	</entity>
+
+</entity-mappings>

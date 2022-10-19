@@ -1,4 +1,4 @@
-package cruzapi;
+package cruzapi.adapter.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,6 @@ public class SecurityConfig
 		http.httpBasic().and()
 				.csrf().disable()
 				.authorizeHttpRequests()
-//				.antMatchers(HttpMethod.GET, "/test").permitAll()
 				.anyRequest().permitAll();
 		
 		return http.build();

@@ -1,4 +1,4 @@
-package cruzapi.dto;
+package cruzapi.adapter.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class BillPaymentRequest
+public class BillRequestDTO
 {
 	@Pattern(regexp = "[0-9]{44}")
 	@NotBlank
