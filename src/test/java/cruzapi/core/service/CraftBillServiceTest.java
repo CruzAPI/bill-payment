@@ -1,7 +1,6 @@
 package cruzapi.core.service;
 
 import static cruzapi.core.entity.BillDetails.Type.NORMAL;
-import static cruzapi.core.entity.BillDetails.Type.NPC;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -48,16 +47,7 @@ class CraftBillServiceTest
 	private CalculatedBillRepository repository;
 	private Clock clock;
 	
-	private BillDetails expiredBill;
-	
-	private static Stream<Arguments> calculatedBillParameters()
-	{
-		return Stream.of(
-				Arguments.of(new BigDecimal("100.0"), new BigDecimal("1.0"), new BigDecimal("2.0"), 
-						new BigDecimal("103.0"), 30L),
-				Arguments.of(new BigDecimal("260.0"), new BigDecimal("0.0858"), new BigDecimal("5.2"), 
-						new BigDecimal("265.2858"), 1L));
-	}
+	private BillDetails billDetails1;
 	
 	@BeforeEach
 	void beforeEach()
@@ -65,7 +55,7 @@ class CraftBillServiceTest
 		repository = mock(CalculatedBillRepository.class);
 		clock = mock(Clock.class);
 		
-		expiredBill = TestUtils.getBillDetails1();
+		billDetails1 = TestUtils.getBillDetails1();
 		
 		when(clock.instant()).thenReturn(Instant.now());
 		when(clock.getZone()).thenReturn(ZoneId.systemDefault());
@@ -106,11 +96,11 @@ class CraftBillServiceTest
 	}
 	
 	@ParameterizedTest
-	@MethodSource("calculatedBillParameters")
+	@MethodSource("calculatedBillAmountsParameters")
 	void assertCalculatedBillAmounts(BigDecimal originalAmount, 
 			BigDecimal interest, BigDecimal fine, BigDecimal amount, long daysLate)
 	{
-		BillDetails billDetails = spy(this.expiredBill);
+		BillDetails billDetails = spy(this.billDetails1);
 		LocalDate dueDate = billDetails.getDueDate();
 		LocalDate paymentDate = dueDate.plusDays(daysLate);
 		
@@ -130,12 +120,20 @@ class CraftBillServiceTest
 		assertThat(amount, Matchers.comparesEqualTo(calculatedBill.getAmount()));
 	}
 	
-//	@Test
-	void assertCalculatedBillObject()
+	private static Stream<Arguments> calculatedBillAmountsParameters()
 	{
-		long daysLate = 30L;
-		
-		BillDetails billDetails = spy(this.expiredBill);
+		return Stream.of(
+				Arguments.of(new BigDecimal("100.0"), new BigDecimal("1.0"), new BigDecimal("2.0"), 
+						new BigDecimal("103.0"), 30L),
+				Arguments.of(new BigDecimal("260.0"), new BigDecimal("0.0858"), new BigDecimal("5.2"), 
+						new BigDecimal("265.2858"), 1L));
+	}
+	
+	@ParameterizedTest
+	@MethodSource("calculatedBillObjectParameters")
+	void assertCalculatedBillObject(BillDetails billDetails, long daysLate)
+	{
+		billDetails = spy(billDetails);
 		LocalDate dueDate = billDetails.getDueDate();
 		LocalDate paymentDate = dueDate.plusDays(daysLate);
 		
@@ -148,12 +146,12 @@ class CraftBillServiceTest
 		verify(billDetails, atLeastOnce()).getDueDate();
 		verify(billDetails).getAmount();
 		
-		MathContext mathContext = new MathContext(5, RoundingMode.UP);
+		MathContext mathContext = new MathContext(2, RoundingMode.DOWN);
 		BigDecimal originalAmount = billDetails.getAmount();
 		BigDecimal fineMultiplier = new BigDecimal("0.02", mathContext);
 		BigDecimal interestMultiplierMontly = new BigDecimal("0.01", mathContext);
-		BigDecimal interestMultiplier = new BigDecimal(daysLate, mathContext).divide(new BigDecimal("30"), mathContext)
-				.multiply(interestMultiplierMontly);
+		BigDecimal monthsLate = new BigDecimal(daysLate).divide(new BigDecimal("30"), mathContext);
+		BigDecimal interestMultiplier = interestMultiplierMontly.multiply(monthsLate);
 		
 		CalculatedBill expected = CalculatedBill.builder()
 				.code(billDetails.getCode())
@@ -166,5 +164,17 @@ class CraftBillServiceTest
 				.build();
 		
 		assertEquals(expected, actual);
+	}
+	
+	private static Stream<Arguments> calculatedBillObjectParameters()
+	{
+		return Stream.of(
+				Arguments.of(TestUtils.getBillDetails1(), 30L),
+				Arguments.of(TestUtils.getBillDetails2(), 142L),
+				Arguments.of(TestUtils.getBillDetails1(), 43L),
+				Arguments.of(TestUtils.getBillDetails3(), 6L),
+				Arguments.of(TestUtils.getBillDetails2(), 3L),
+				Arguments.of(TestUtils.getBillDetails1(), 2L),
+				Arguments.of(TestUtils.getBillDetails3(), 1L));
 	}
 }
