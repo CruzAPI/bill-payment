@@ -1,6 +1,7 @@
 package cruzapi.adapter.config;
 
 import java.time.Clock;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

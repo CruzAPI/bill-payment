@@ -46,12 +46,14 @@ public class CraftBillService implements BillService
 		
 		long daysLate = ChronoUnit.DAYS.between(billDetails.getDueDate(), paymentDate);
 		
-		MathContext mathContext = new MathContext(5, RoundingMode.UP);
+		MathContext mathContext = new MathContext(2, RoundingMode.DOWN);
 		BigDecimal originalAmount = billDetails.getAmount();
 		BigDecimal fineMultiplier = new BigDecimal("0.02", mathContext);
 		BigDecimal interestMultiplierMontly = new BigDecimal("0.01", mathContext);
-		BigDecimal interestMultiplier = new BigDecimal(daysLate, mathContext).divide(new BigDecimal("30"), mathContext)
-				.multiply(interestMultiplierMontly);
+		BigDecimal monthsLate = new BigDecimal(daysLate).divide(new BigDecimal("30"), mathContext);
+		BigDecimal interestMultiplier = interestMultiplierMontly.multiply(monthsLate);
+		
+		System.out.println("AAA: " + interestMultiplier);
 		
 		return CalculatedBill.builder()
 				.code(billDetails.getCode())

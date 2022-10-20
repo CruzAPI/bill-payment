@@ -26,12 +26,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BillController
 {
+	private final String uri = "https://vagas.builders/api/builders/bill-payments/codes";
 	private final BillService billService;
 	private final CalculatedBillMapper mapper;
 	private final BillDetailsMapper billDetailsMapper;
 	
 	@GetMapping("/test")
-	public ResponseEntity<?> test(String token, @RequestBody @Valid BillDTO bill, RestTemplate restTemplate)
+	public ResponseEntity<?> calculateBill(String token, @RequestBody @Valid BillDTO bill, RestTemplate restTemplate)
 	{
 		ResponseEntity<BillDetailsDTO> response = requestBillDetails(restTemplate, bill, token);
 		BillDetails billDetails = billDetailsMapper.toEntity(response.getBody());
@@ -51,8 +52,6 @@ public class BillController
 			request.getHeaders().set(HttpHeaders.AUTHORIZATION, token);
 			return execution.execute(request, body);
 		});
-		
-		String uri = "https://vagas.builders/api/builders/bill-payments/codes";
 		
 		var requestEntity = new HttpEntity<>(new BillRequestDTO(bill.getBarCode()));
 		return restTemplate.exchange(uri, HttpMethod.POST, requestEntity, BillDetailsDTO.class);
