@@ -53,8 +53,6 @@ public class CraftBillService implements BillService
 		BigDecimal monthsLate = new BigDecimal(daysLate).divide(new BigDecimal("30"), mathContext);
 		BigDecimal interestMultiplier = interestMultiplierMontly.multiply(monthsLate);
 		
-		System.out.println("AAA: " + interestMultiplier);
-		
 		return CalculatedBill.builder()
 				.code(billDetails.getCode())
 				.paymentDate(paymentDate)
