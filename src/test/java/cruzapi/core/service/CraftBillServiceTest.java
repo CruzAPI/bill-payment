@@ -4,7 +4,6 @@ import static cruzapi.core.entity.BillDetails.Type.NORMAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -115,7 +114,7 @@ class CraftBillServiceTest
 		verify(billDetails, atLeastOnce()).getDueDate();
 		verify(billDetails).getAmount();
 		
-		assertTrue(originalAmount == calculatedBill.getOriginalAmount());
+		assertSame(originalAmount, calculatedBill.getOriginalAmount());
 		assertThat(fine, Matchers.comparesEqualTo(calculatedBill.getFineAmountCalculated()));
 		assertThat(interest, Matchers.comparesEqualTo(calculatedBill.getInterestAmountCalculated()));
 		assertThat(amount, Matchers.comparesEqualTo(calculatedBill.getAmount()));
