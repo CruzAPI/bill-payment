@@ -1,4 +1,4 @@
-package cruzapi.adapter.controller;
+package cruzapi.adapter.dto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -25,7 +25,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import cruzapi.TestUtils;
-import cruzapi.adapter.dto.BillDTO;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
