@@ -10,7 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class CalculatedBill implements Serializable
+public class CalculatedBill implements Serializable, Cloneable
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -25,9 +25,10 @@ public class CalculatedBill implements Serializable
 	private LocalDateTime requestDateTime;
 	
 	@Builder
-	private CalculatedBill(String code, LocalDate paymentDate, BigDecimal originalAmount, LocalDate dueDate, 
+	private CalculatedBill(UUID uuid, String code, LocalDate paymentDate, BigDecimal originalAmount, LocalDate dueDate, 
 			BigDecimal interestAmountCalculated, BigDecimal fineAmountCalculated, LocalDateTime requestDateTime)
 	{
+		this.uuid = uuid;
 		this.code = code;
 		this.paymentDate = paymentDate;
 		this.originalAmount = originalAmount;
@@ -42,5 +43,18 @@ public class CalculatedBill implements Serializable
 	public BigDecimal recalculeAmount()
 	{
 		return amount = originalAmount.add(fineAmountCalculated).add(interestAmountCalculated);
+	}
+	
+	@Override
+	public CalculatedBill clone()
+	{
+		try
+		{
+			return (CalculatedBill) super.clone();
+		}
+		catch(Exception e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 }

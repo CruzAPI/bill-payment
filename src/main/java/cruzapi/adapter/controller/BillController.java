@@ -2,9 +2,6 @@ package cruzapi.adapter.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import cruzapi.adapter.dto.BillDTO;
 import cruzapi.adapter.dto.BillDetailsDTO;
-import cruzapi.adapter.dto.BillRequestDTO;
+import cruzapi.adapter.dto.CalculatedBillDTO;
 import cruzapi.adapter.mapper.BillDetailsMapper;
 import cruzapi.adapter.mapper.CalculatedBillMapper;
 import cruzapi.core.entity.BillDetails;
@@ -32,7 +29,7 @@ public class BillController
 	private final BillDetailsMapper billDetailsMapper;
 	
 	@GetMapping("/test")
-	public ResponseEntity<?> calculateBill(String token, @RequestBody @Valid BillDTO bill, RestTemplate restTemplate)
+	public ResponseEntity<CalculatedBillDTO> calculateBill(String token, @RequestBody @Valid BillDTO bill, RestTemplate restTemplate)
 	{
 		ResponseEntity<BillDetailsDTO> response = consumer.requestBillDetails(restTemplate, bill, token);
 		BillDetails billDetails = billDetailsMapper.toEntity(response.getBody());
