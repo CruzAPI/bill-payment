@@ -2,6 +2,7 @@ package cruzapi.core.service;
 
 import static cruzapi.core.entity.BillDetails.Type.NORMAL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
@@ -64,7 +65,7 @@ class CraftBillServiceTest
 	}
 	
 	@Test
-	void assertThrowsBillNotExpiredException()
+	void testThrowsBillNotExpiredException()
 	{
 		BillDetails billDetails = mock(BillDetails.class);
 		
@@ -79,7 +80,7 @@ class CraftBillServiceTest
 	}
 	
 	@Test
-	void assertThrowsBillNotNPCException()
+	void testThrowsBillNotNPCException()
 	{
 		BillDetails billDetails = mock(BillDetails.class);
 		
@@ -97,7 +98,7 @@ class CraftBillServiceTest
 	
 	@ParameterizedTest
 	@MethodSource("calculatedBillAmountsParameters")
-	void assertCalculatedBillAmounts(BigDecimal originalAmount, 
+	void testCalculatedBillAmounts(BigDecimal originalAmount, 
 			BigDecimal interest, BigDecimal fine, BigDecimal amount, long daysLate)
 	{
 		BillDetails billDetails = spy(this.billDetails1);
@@ -131,7 +132,7 @@ class CraftBillServiceTest
 	
 	@ParameterizedTest
 	@MethodSource("calculatedBillObjectParameters")
-	void assertCalculatedBillObject(BillDetails billDetails, long daysLate)
+	void testCalculatedBillObject(BillDetails billDetails, long daysLate)
 	{
 		billDetails = spy(billDetails);
 		LocalDate dueDate = billDetails.getDueDate();
@@ -176,5 +177,20 @@ class CraftBillServiceTest
 				Arguments.of(TestUtils.getBillDetails2(), 3L),
 				Arguments.of(TestUtils.getBillDetails1(), 2L),
 				Arguments.of(TestUtils.getBillDetails3(), 1L));
+	}
+	
+	@Test
+	void testSave()
+	{
+		CalculatedBill calculatedBill = mock(CalculatedBill.class);
+		CalculatedBill expected = mock(CalculatedBill.class);
+		
+		when(repository.save(calculatedBill)).thenReturn(expected);
+		
+		CalculatedBill actual = billService.save(calculatedBill);
+		
+		verify(repository).save(calculatedBill);
+		
+		assertSame(expected, actual);
 	}
 }
