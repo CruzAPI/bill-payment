@@ -1,6 +1,8 @@
 package cruzapi.core.service;
 
 import static cruzapi.core.entity.BillDetails.Type.NORMAL;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,7 +13,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -23,7 +24,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.stream.Stream;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -115,9 +115,9 @@ class CraftBillServiceTest
 		verify(billDetails).getAmount();
 		
 		assertSame(originalAmount, calculatedBill.getOriginalAmount());
-		assertThat(fine, Matchers.comparesEqualTo(calculatedBill.getFineAmountCalculated()));
-		assertThat(interest, Matchers.comparesEqualTo(calculatedBill.getInterestAmountCalculated()));
-		assertThat(amount, Matchers.comparesEqualTo(calculatedBill.getAmount()));
+		assertThat(fine, comparesEqualTo(calculatedBill.getFineAmountCalculated()));
+		assertThat(interest, comparesEqualTo(calculatedBill.getInterestAmountCalculated()));
+		assertThat(amount, comparesEqualTo(calculatedBill.getAmount()));
 	}
 	
 	private static Stream<Arguments> calculatedBillAmountsParameters()
