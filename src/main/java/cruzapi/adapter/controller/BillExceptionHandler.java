@@ -10,7 +10,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import cruzapi.core.exception.BillException;
 
 @RestControllerAdvice
-public class BillExceptionHandler
+class BillExceptionHandler
 {
 	@ExceptionHandler(BillException.class)
 	public ResponseEntity<String> handle(BillException e)

@@ -1,7 +1,6 @@
 package cruzapi.adapter.config;
 
 import java.time.Clock;
-import java.time.temporal.ChronoUnit;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +13,7 @@ import cruzapi.core.port.CalculatedBillRepository;
 import cruzapi.core.service.CraftBillService;
 
 @Configuration
-public class BeanConfig
+class BeanConfig
 {
 	@Bean
 	public CalculatedBillRepository getCalculatedBillRepository(SpringCalculatedBillRepository repository)
