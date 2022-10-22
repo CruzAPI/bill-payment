@@ -29,7 +29,7 @@ public class BillController
 	private final BillDetailsMapper billDetailsMapper;
 	
 	@GetMapping("/test")
-	public ResponseEntity<CalculatedBillDTO> calculateBill(String token, @RequestBody @Valid BillDTO bill, RestTemplate restTemplate)
+	public ResponseEntity<CalculatedBillDTO> calculateBill(RestTemplate restTemplate, @RequestBody @Valid BillDTO bill, String token)
 	{
 		ResponseEntity<BillDetailsDTO> response = consumer.requestBillDetails(restTemplate, bill, token);
 		BillDetails billDetails = billDetailsMapper.toEntity(response.getBody());

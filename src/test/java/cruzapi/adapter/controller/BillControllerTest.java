@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.client.RestTemplate;
 
 import cruzapi.adapter.dto.BillDTO;
 import cruzapi.adapter.dto.BillDetailsDTO;
@@ -50,6 +51,7 @@ class BillControllerTest
 	@SuppressWarnings("unchecked")
 	void testResponseCreated()
 	{
+		RestTemplate restTemplate = mock(RestTemplate.class);
 		BillDTO billDTO = mock(BillDTO.class);
 		BillDetailsDTO billDetailsDTO = mock(BillDetailsDTO.class);;
 		BillDetails billDetails = mock(BillDetails.class);
@@ -59,18 +61,19 @@ class BillControllerTest
 		ResponseEntity<BillDetailsDTO> response = mock(ResponseEntity.class);
 		
 		LocalDate paymentDate = LocalDate.now();
+		String token = new String();
 		
 		when(billDTO.getPaymentDate()).thenReturn(paymentDate);
 		when(response.getBody()).thenReturn(billDetailsDTO);
-		when(consumer.requestBillDetails(any(), same(billDTO), any())).thenReturn(response);
+		when(consumer.requestBillDetails(any(), any(), any())).thenReturn(response);
 		when(billDetailsMapper.toEntity(billDetailsDTO)).thenReturn(billDetails);
 		when(billService.calculateBill(billDetails, paymentDate)).thenReturn(calculatedBill);
 		when(billService.save(calculatedBill)).thenReturn(savedCalculatedBill);
 		when(calculatedBillMapper.toDTO(savedCalculatedBill)).thenReturn(calculatedBillDTO);
 		
-		ResponseEntity<CalculatedBillDTO> actualResponse = billController.calculateBill(null, billDTO, null);
+		ResponseEntity<CalculatedBillDTO> actualResponse = billController.calculateBill(restTemplate, billDTO, token);
 		
-		verify(consumer).requestBillDetails(null, billDTO, null);
+		verify(consumer).requestBillDetails(same(restTemplate), same(billDTO), same(token));
 		verify(response).getBody();
 		verify(billDetailsMapper).toEntity(billDetailsDTO);
 		verify(billDTO).getPaymentDate();
