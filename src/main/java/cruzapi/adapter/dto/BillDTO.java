@@ -1,5 +1,6 @@
 package cruzapi.adapter.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.validation.constraints.FutureOrPresent;
@@ -15,8 +16,10 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class BillDTO
+public class BillDTO implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	@Pattern(regexp = "[0-9]{44}", message = "Invalid bar code.")
 	@NotNull(message = "Bar code must not be null.")
 	private String barCode;

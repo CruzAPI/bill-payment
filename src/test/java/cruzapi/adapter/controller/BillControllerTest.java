@@ -18,9 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
 import cruzapi.adapter.dto.BillDTO;
-import cruzapi.adapter.dto.BillDetailsDTO;
 import cruzapi.adapter.dto.CalculatedBillDTO;
-import cruzapi.adapter.mapper.BillDetailsMapper;
 import cruzapi.adapter.mapper.CalculatedBillMapper;
 import cruzapi.core.entity.BillDetails;
 import cruzapi.core.entity.CalculatedBill;
@@ -34,7 +32,6 @@ class BillControllerTest
 	private BillService billService;
 	private BillRestConsumer consumer;
 	private CalculatedBillMapper calculatedBillMapper;
-	private BillDetailsMapper billDetailsMapper;
 	
 	@BeforeEach
 	void beforeEach()
@@ -42,31 +39,25 @@ class BillControllerTest
 		consumer = mock(BillRestConsumer.class);
 		billService = mock(BillService.class);
 		calculatedBillMapper = mock(CalculatedBillMapper.class);
-		billDetailsMapper = mock(BillDetailsMapper.class);
 		
-		billController = new BillController(billService, consumer, calculatedBillMapper, billDetailsMapper);
+		billController = new BillController(billService, consumer, calculatedBillMapper);
 	}
 	
 	@Test
-	@SuppressWarnings("unchecked")
 	void testResponseCreated()
 	{
 		RestTemplate restTemplate = mock(RestTemplate.class);
 		BillDTO billDTO = mock(BillDTO.class);
-		BillDetailsDTO billDetailsDTO = mock(BillDetailsDTO.class);;
 		BillDetails billDetails = mock(BillDetails.class);
 		CalculatedBill calculatedBill = mock(CalculatedBill.class);
 		CalculatedBill savedCalculatedBill = mock(CalculatedBill.class);
 		CalculatedBillDTO calculatedBillDTO = mock(CalculatedBillDTO.class);
-		ResponseEntity<BillDetailsDTO> response = mock(ResponseEntity.class);
 		
 		LocalDate paymentDate = LocalDate.now();
 		String token = new String();
 		
 		when(billDTO.getPaymentDate()).thenReturn(paymentDate);
-		when(response.getBody()).thenReturn(billDetailsDTO);
-		when(consumer.requestBillDetails(any(), any(), any())).thenReturn(response);
-		when(billDetailsMapper.toEntity(billDetailsDTO)).thenReturn(billDetails);
+		when(consumer.requestBillDetails(any(), any(), any())).thenReturn(billDetails);
 		when(billService.calculateBill(billDetails, paymentDate)).thenReturn(calculatedBill);
 		when(billService.save(calculatedBill)).thenReturn(savedCalculatedBill);
 		when(calculatedBillMapper.toDTO(savedCalculatedBill)).thenReturn(calculatedBillDTO);
@@ -74,8 +65,6 @@ class BillControllerTest
 		ResponseEntity<CalculatedBillDTO> actualResponse = billController.calculateBill(restTemplate, billDTO, token);
 		
 		verify(consumer).requestBillDetails(same(restTemplate), same(billDTO), same(token));
-		verify(response).getBody();
-		verify(billDetailsMapper).toEntity(billDetailsDTO);
 		verify(billDTO).getPaymentDate();
 		verify(billService).calculateBill(billDetails, paymentDate);
 		verify(billService).save(calculatedBill);

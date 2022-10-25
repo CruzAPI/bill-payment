@@ -2,7 +2,6 @@ package cruzapi.adapter.controller;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -50,7 +49,7 @@ class BillExceptionHandlerTest
 		verify(exception).getMessage();
 		
 		assertSame(HttpStatus.BAD_REQUEST, actualResponse.getStatusCode());
-		assertTrue(exception.getMessage() == actualResponse.getBody());
+		assertSame(exception.getMessage(), actualResponse.getBody());
 	}
 	
 	@ParameterizedTest
@@ -68,7 +67,7 @@ class BillExceptionHandlerTest
 		verify(exception).getResponseBodyAsString();
 		
 		assertSame(expectedHttpStatus, actualResponse.getStatusCode());
-		assertTrue(exception.getResponseBodyAsString() == actualResponse.getBody());
+		assertSame(exception.getResponseBodyAsString(), actualResponse.getBody());
 	}
 	
 	private static Stream<Arguments> httpStatusValues()
