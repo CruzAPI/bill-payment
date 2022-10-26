@@ -17,7 +17,7 @@ O banco de dados tem que estar devidamente configurado para a aplicação funcio
 Passo 1 - Clonar o repositório. <br>
 Passo 2 - Configurar o *application.properties* na pasta /src/main/resources <br>
 Passo 3 - Acessar o diretório base do projeto pelo terminal. <br>
-Passo 4 - Rodar o comando: **mvn clean package** <br>
+Passo 4 - Executar o comando: **mvn clean package** <br>
 Passo 5 - Pegar o arquivo .jar na pasta /target e executar: **java -jar <nome_do_arquivo>.jar**
  
 ## Como executar os testes
