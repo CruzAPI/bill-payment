@@ -1,19 +1,32 @@
 # Bill API - Desafio Técnico
 O [desafio técnico](https://platformbuilders.notion.site/Desafio-T-cnico-483464fe010e4122b88499f4b3d625d9) é uma API RESTful que consiste em recebe um código de boleto vencido e retornar os valores de multas e juros calculados. 
 
-## Como executar a aplicação
-O servidor está 24h online no ip 45.233.112.53 na porta 8080. (Se cair me avisa que eu ligo denovo) <br>
-O banco de dados [MariaDB](https://mariadb.org/) está aberto no mesmo ip na porta 3306. <br>
-As credenciais do banco de dados estão no *application.properties*. <br>
-<br>
-Você pode testar localmente, mas vai precisar configurar o ip e a porta no *application.properties* e o banco de dados também.
+## Banco de dados
+O banco de dados usado na aplicação é o [MariaDB](https://mariadb.org/). <br>
+Recomendo manter o MariaDB, porque trocar o banco pode quebrar a aplicação por problemas no hibernate. <br>
 
+### Configurando o MariaDB
+Passo 1 - [Baixar e instalar o MariaDB](https://mariadb.com/kb/en/getting-installing-and-upgrading-mariadb/) <br>
+Passo 2 - Criar o banco de dados sql: **create database `bill-payment`;** <br>
+Passo 3 - [Criar o usuário](https://mariadb.com/kb/en/create-user/) <br>
+
+## Como executar a aplicação
+Para executar a aplicação será necessário o Java 17, [maven](https://maven.apache.org/) e o [MariaDB](https://mariadb.org/) previamente configurado. <br>
+O banco de dados tem que estar devidamente configurado para a aplicação funcionar, com usuário configurado também.
+
+Passo 1 - Clonar o repositório. <br>
+Passo 2 - Configurar o *application.properties* na pasta /src/main/resources <br>
+Passo 3 - Acessar o diretório base do projeto pelo terminal. <br>
+Passo 4 - Rodar o comando: **mvn clean package** <br>
+Passo 5 - Pegar o arquivo .jar na pasta /target e executar: **java -jar <nome_do_arquivo>.jar**
+ 
 ## Como executar os testes
 O desafio possui testes de unidade e de integração, para executá-los você vai precisar do [maven](https://maven.apache.org/). <br>
+
 <br>
 Passo 1 - Clonar o repositório. <br>
 Passo 2 - Acessar o diretório base do projeto pelo terminal. <br>
-Passo 3 - Rodar o comando: **mvn test** <br>
+Passo 3 - Executar o comando: **mvn test** <br>
 
 ## Routes
 | Method		| URL 							| Returns 				| Body 				| 
