@@ -21,20 +21,21 @@
 					}
 				},
 				"url": {
-					"raw": "45.233.112.53/bill?token=",
+					"raw": "45.233.112.53:8080/bill?token=ac234c1f-2e9b-4f0e-a508-5a61bdb488fe",
 					"host": [
 						"45",
 						"233",
 						"112",
 						"53"
 					],
+					"port": "8080",
 					"path": [
 						"bill"
 					],
 					"query": [
 						{
 							"key": "token",
-							"value": ""
+							"value": "ac234c1f-2e9b-4f0e-a508-5a61bdb488fe"
 						}
 					]
 				}
