@@ -2,7 +2,7 @@
 O [desafio técnico](https://platformbuilders.notion.site/Desafio-T-cnico-483464fe010e4122b88499f4b3d625d9) é uma API RESTful que consiste em recebe um código de boleto vencido e retornar os valores de multas e juros calculados. 
 
 ## Como executar a aplicação
-O servidor está 24h online no ip 45.233.112.53 na porta 80. (Se cair me avisa que eu ligo denovo) <br>
+O servidor está 24h online no ip 45.233.112.53 na porta 8080. (Se cair me avisa que eu ligo denovo) <br>
 O banco de dados [MariaDB](https://mariadb.org/) está aberto no mesmo ip na porta 3306. <br>
 As credenciais do banco de dados estão no *application.properties*. <br>
 <br>
