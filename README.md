@@ -22,7 +22,6 @@ Passo 5 - Pegar o arquivo .jar na pasta /target e executar: **java -jar <nome_do
  
 ## Como executar os testes
 O desafio possui testes de unidade e de integração, para executá-los você vai precisar do [maven](https://maven.apache.org/). <br>
-
 <br>
 Passo 1 - Clonar o repositório. <br>
 Passo 2 - Acessar o diretório base do projeto pelo terminal. <br>
