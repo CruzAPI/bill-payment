@@ -8,15 +8,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@NoArgsConstructor
+@AllArgsConstructor
 public class CalculatedBillDTO implements Serializable
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3384141437103863151L;
 	
 	@JsonIgnore
 	private String code;

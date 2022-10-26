@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class CalculatedBill implements Serializable, Cloneable
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 597907998365716323L;
 	
 	private UUID uuid;
 	private String code;

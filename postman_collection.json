@@ -1,0 +1,76 @@
+{
+	"info": {
+		"_postman_id": "937a4921-830e-4ef1-88f6-ae821a1a4006",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23047289"
+	},
+	"item": [
+		{
+			"name": "Calculate bill amount",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"bar_code\": \"34191790010104351004791020150008191070069000\",\n    \"payment_date\": \"2022-12-18\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "45.233.112.53/bill?token=",
+					"host": [
+						"45",
+						"233",
+						"112",
+						"53"
+					],
+					"path": [
+						"bill"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get token from API",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"client_id\": \"bd753592-cf9b-4d1a-96b9-cb8b2c01bd12\",\n    \"client_secret\": \"4e8229fe-1131-439c-9846-799895a8be5b\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://vagas.builders/api/builders/auth/tokens",
+					"protocol": "https",
+					"host": [
+						"vagas",
+						"builders"
+					],
+					"path": [
+						"api",
+						"builders",
+						"auth",
+						"tokens"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

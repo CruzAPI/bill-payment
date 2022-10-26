@@ -1,5 +1,8 @@
 package cruzapi.adapter.controller;
 
+import java.util.UUID;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,6 +24,14 @@ class BillExceptionHandler
 	@ExceptionHandler(HttpStatusCodeException.class)
 	public ResponseEntity<String> handle(HttpStatusCodeException e)
 	{
+		if(e.getStatusCode() == HttpStatus.UNAUTHORIZED)
+		{
+			return ResponseEntity.status(e.getStatusCode())
+					.body("You must generate an access token through builders API and pass it via parameter. "
+							+ "\ne.g. /bill?token=" + new UUID(0L, 0L)
+							+ "\nAPI: https://vagas.builders/api/builders/auth/tokens");
+		}
+		
 		return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
 	}
 	

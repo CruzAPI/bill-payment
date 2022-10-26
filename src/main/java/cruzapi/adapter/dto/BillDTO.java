@@ -12,13 +12,15 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class BillDTO implements Serializable
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8006206877533682444L;
 	
 	@Pattern(regexp = "[0-9]{44}", message = "Invalid bar code.")
 	@NotNull(message = "Bar code must not be null.")

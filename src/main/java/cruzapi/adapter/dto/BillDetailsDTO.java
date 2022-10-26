@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class BillDetailsDTO implements Serializable
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1160890682733083476L;
 	
 	private String code;
 	private LocalDate dueDate;

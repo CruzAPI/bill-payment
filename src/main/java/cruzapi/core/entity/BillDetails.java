@@ -12,7 +12,7 @@ import lombok.Data;
 @Builder
 public class BillDetails implements Cloneable, Serializable
 {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5262340869934596436L;
 	
 	private final String code;
 	private final LocalDate dueDate;
